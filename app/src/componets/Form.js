@@ -4,9 +4,9 @@
 import React, { Component } from 'react';
 import FieldGroup from './FieldGroup';
 import { map, keys } from '../utils/Obj';
-import { save } from '../utils/Req';
+import { save, get } from '../utils/Req';
 
-const prefix = window.base ? (window.base + '/') : '/';
+const prefix = '';
 const codes = {
 	1 : 'No exists path',
 	2 : 'No data in request',
@@ -22,9 +22,11 @@ import Marked from 'marked';
 export default class Form extends Component {
 	constructor(props) {
 		super(props);
-		let state = {};
+		let state = {
+			markdown : '',
+			folder : ''
+		};
 		keys(this.props.elements).map(key => state[key] = '');
-		state.markdown = '';
 		this.state = state;
 		map(this.props.elements, (id, val) => val.onChange = id === 'mdText'
 			? this.handelChangeMdText.bind(this)
@@ -112,6 +114,30 @@ export default class Form extends Component {
 			});
 	}
 
+	handelSetPath(ev) {
+		let that = this;
+
+		get('path')
+			.then(r => {
+
+				if (!r.data.folder) {
+					return;
+				}
+
+				let folder = r.data.folder;
+
+				this.setState(that._changeState('folder', folder));
+
+			},r => {
+				that.setState({
+					error : true,
+					message : 'Bad response from server'
+				});
+				console.log('hanedlSetPath/Responce/Error', r);
+			})
+
+	}
+
 	_cellText (cell) {
 		return cell && cell.innerText ? cell.innerText : '';
 	}
@@ -173,12 +199,20 @@ export default class Form extends Component {
 				);
 		}
 
+		this.props.elements.path.value = this.state.folder;
+
 		return (
 			<div className='form' >
 				{ alerts }
 				{ this.warns() }
 				<form onSubmit={ this.handelSubmit.bind(this) } id='formId' >
 					<div className='col-lg-6' >
+						<div className="btn-group" >
+							<label className="btn btn-default" onClick={ this.handelSetPath.bind(this) }>
+								Set path
+							</label>
+							<input type="text" id="label" className="btn" placeholder="Folder" disabled value={this.state.folder} />
+						</div>
 						{ map(this.props.elements, (id, vals) => <FieldGroup key={	id } id={ id } { ...vals } />) }
 						<button id='submit' type='submit' className='btn btn-primary'>Submit</button>
 					</div>

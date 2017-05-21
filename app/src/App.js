@@ -10,7 +10,8 @@ const formProps = {
 			label: 'Path insert',
 			placeholder: 'Enter path',
 			validationState: null,
-			required : 'required'
+			required : 'required',
+			value : ''
 		},
 		nameSpace: {
 			type: 'text',

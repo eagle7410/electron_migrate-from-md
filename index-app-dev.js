@@ -11,13 +11,14 @@ app.on('ready', () => {
 	let mainWindow = new BrowserWindow({
 		width: 800,
 		height : 800,
-		icon: __dirname + '/database-migration.ico'
 	});
 
 	server.run(mainWindow);
 
 	mainWindow.maximize();
-	mainWindow.loadURL('file://' + __dirname + '/views/index.html');
+	mainWindow.loadURL('http://localhost:3000/');
+	mainWindow.toggleDevTools();
+
 	mainWindow.on('closed', () => {
 		mainWindow = null;
 	});

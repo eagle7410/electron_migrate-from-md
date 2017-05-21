@@ -1,25 +1,22 @@
-const express = require('express');
-const morgan = require('morgan');
-const bodyParser = require('body-parser');
+const electron = require('electron');
+const ipcRenderer = electron.ipcMain;
+const dialog = electron.dialog;
 const send = require('./libs/send');
-const app = express();
+const migration = require('./libs/migration');
+const listen = (action, handel) => {
+	ipcRenderer.on(action, (event, arg) => {
+		handel(event.sender,  action + '-response', arg);
+	});
+};
 
-app.use(morgan('dev'));
-
-// Response static
-app.use('/static', express.static('static'));
-
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
-
-// parse application/json
-app.use(bodyParser.json());
-
-app.post('/migration', (req, res) => {
-	res.setHeader('Access-Control-Allow-Origin', '*');
-	require('./libs/migration').create(req.body, (e, attach) => e ? send.err(res, e) : send.ok(res, {noUsed : attach}));
-});
-
-app.get('/', (req, res) => res.sendFile(__dirname + '/views/index.html'));
-
-app.listen(3001);
+module.exports = {
+	run : (mainWindow) => {
+		listen('POST-migration', (res, action, data) => {
+			migration.create(data, (e, attach) => e ? send.err(res, action, e) : send.ok(res, action, {noUsed : attach}));
+		});
+		listen('GET-path', (res, action) => {
+			let folder = dialog.showOpenDialog(mainWindow, {properties: ['openFile', 'openDirectory']});
+			send.ok(res, action, {folder : !Array.isArray(folder) ? '' : folder.shift()});
+		});
+	}
+};

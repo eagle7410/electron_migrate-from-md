@@ -1,5 +1,5 @@
-
-import {ext, map, isObj, urlParams} from './Obj';
+const electron = window.require('electron');
+const ipcRenderer  = electron.ipcRenderer;
 
 /**
  * Send to server.
@@ -10,28 +10,14 @@ import {ext, map, isObj, urlParams} from './Obj';
  * @param  {*} headers
  * @return {Promise}
  */
-const send = (url, data, method, headers) => new Promise((resolve, reject) => {
-	let xhr = new XMLHttpRequest();
-	xhr.open(method, url);
-	xhr.onload = r => {
-		try {
-			let data = JSON.parse(r.target.responseText);
-			resolve(data);
-		} catch (e) {
-			console.error('Prase responce bad', e);
-			reject(e);
-		}
+const send = (url, data, method, headers) => new Promise((resolve) => {
+	const action = `${method}-${url}`;
 
-	};
+	ipcRenderer.send(action, data);
 
-	xhr.onerror = reject;
-
-	map(ext({
-		'Accept': 'application/json',
-		'Content-Type': 'application/x-www-form-urlencoded'
-	}, headers), (key, val) => xhr.setRequestHeader(key, val));
-
-	xhr.send(isObj(data) ? urlParams(data) : null);
+	ipcRenderer.on(action +'-response', (event, data) => {
+		resolve(data);
+	})
 });
 
 /**

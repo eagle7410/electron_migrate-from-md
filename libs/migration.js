@@ -149,7 +149,7 @@ const createClassNames = (data) => new Promise(
 			++i;
 			let upd = val.table.replace(/__/g, '').trim();
 			data.struct[inx].table = upd;
-			data.struct[inx].name = 'm' + String(Date.now() + i).slice(1) + upd.split('_').map(val => util.str.up1stChar(val)).join('');
+			data.struct[inx].name = 'M' + String(Date.now() + i).slice(1) + upd.split('_').map(val => util.str.up1stChar(val)).join('');
 
 		});
 
@@ -233,6 +233,7 @@ const rowsToReady = (data) => new Promise(
  */
 const saveFile = (path, content) => new Promise(
 	(resolve, reject) => {
+
 		fs.writeFile(path, content, (e) => {
 			if (e) {
 				console.error(e);

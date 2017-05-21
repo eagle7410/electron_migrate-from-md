@@ -4,13 +4,15 @@ const err = 'BAD';
 /**
  * Wrap for response send.
  * @method send
- * @param  {response} res
+ * @param  {event.sender} res
+ * @param  {string} action
  * @param  {constant} status
  * @param  {*} data
  * @return {response}
  */
-let send = (res, status, data) => {
-	res.json({
+let send = (res, action, status, data) => {
+
+	res.send(action, {
 		status : status,
 		data : data
 	});
@@ -28,17 +30,19 @@ module.exports = {
 	/**
 	 * Response Sucess.
 	 * @method ok
-	 * @param  {response} res
+	 * @param  {event.sender} res
+	 * @param  {string} action
 	 * @param  {*} data
 	 * @return {response}
 	 */
-	ok : (res, data) => send(res, ok, data),
+	ok : (res, action, data) => send(res, action, ok, data),
 	/**
 	 * Responce fail.
 	 * @method err
-	 * @param  {response} res
+	 * @param  {event.sender} res
+	 * @param  {string} action
 	 * @param  {*} data
 	 * @return {response}
 	 */
-	err : (res, data) => send(res, err, data)
+	err : (res, action, data) => send(res, action, err, data)
 };
