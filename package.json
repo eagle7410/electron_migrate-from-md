@@ -2,9 +2,10 @@
   "name": "electron_migrate-from-md",
   "version": "1.0.0",
   "description": "Create migration for yii2",
-  "main": "app.js",
+  "main": "index-app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
   },
   "repository": {
     "type": "git",
@@ -14,10 +15,24 @@
     "migration",
     "yii2"
   ],
-  "author": "Igor Stcherbina",
+  "author": {
+    "name": "Igor Stcherbina",
+    "email": "verycooleagle@gmail.com",
+    "skype": "eagleeagle7410"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/eagle7410/electron_migrate-from-md/issues"
+  },
+  "dependencies": {
+    "dot": "^1.1.1"
+  },
+  "devDependencies": {
+    "electron-prebuilt": "^1.4.13",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssmin": "^0.1.7",
+    "gulp-uglifyjs": "^0.6.2"
   },
   "homepage": "https://github.com/eagle7410/electron_migrate-from-md#readme"
 }
