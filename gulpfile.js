@@ -1,7 +1,9 @@
 "use strict";
 let gulp = require('gulp'), // Сообственно Gulp JS
 	concat = require('gulp-concat'), // Склейка файлов
-	cssmin = require('gulp-cssmin'); // Мініфикатор
+	cssmin = require('gulp-cssmin'), // Мініфикатор
+	electron = require('gulp-electron'),
+	packageJson = require('./package.json');
 
 gulp.task('css', () => gulp.src([
 		'./static/bower/bootstrap/dist/css/bootstrap.css',
@@ -13,5 +15,6 @@ gulp.task('css', () => gulp.src([
 	.pipe(cssmin())
 	.pipe(gulp.dest('./static/build/css'))
 );
+
 
 gulp.task('default', ['css']);

@@ -5,7 +5,6 @@
 const electron      = require('electron');
 const app           = electron.app;
 const BrowserWindow = electron.BrowserWindow;
-const server        = require('./server');
 
 app.on('ready', () => {
 	let mainWindow = new BrowserWindow({
@@ -14,7 +13,7 @@ app.on('ready', () => {
 		icon: __dirname + '/database-migration.ico'
 	});
 
-	server.run(mainWindow);
+	require('./server').run(mainWindow);
 
 	mainWindow.maximize();
 	mainWindow.loadURL('file://' + __dirname + '/views/index.html');

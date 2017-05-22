@@ -125,7 +125,7 @@ export default class Form extends Component {
 				}
 
 				let folder = r.data.folder;
-
+				this._changeState('path', folder);
 				this.setState(that._changeState('folder', folder));
 
 			},r => {
