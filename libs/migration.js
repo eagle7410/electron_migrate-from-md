@@ -135,6 +135,26 @@ const validation = data => new Promise(
 			.catch(reject);
 
 	});
+/**
+ * Get migration timestamp.
+ * @returns {string}
+ */
+const getYiiNumber = () => {
+
+	let now = new Date(),
+		y = now.getFullYear(),
+		m = now.getMonth() + 1,
+		d = now.getDate(),
+		h = now.getHours(),
+		min = now.getMinutes(),
+		s = now.getSeconds();
+
+	m = (m >= 10 ? m : '0' + m);
+	y = new String(y).substr(2, 2);
+	d = d >= 10 ? d : '0' + d;
+
+	return y + m + d + '_' + h + min + s;
+};
 
 /**
  * Create name file and clsss naem
@@ -149,7 +169,7 @@ const createClassNames = (data) => new Promise(
 			++i;
 			let upd = val.table.replace(/__/g, '').trim();
 			data.struct[inx].table = upd;
-			data.struct[inx].name = 'M' + String(Date.now() + i).slice(1) + upd.split('_').map(val => util.str.up1stChar(val)).join('');
+			data.struct[inx].name = 'M' + getYiiNumber() + upd.split('_').map(val => util.str.up1stChar(val)).join('');
 
 		});
 

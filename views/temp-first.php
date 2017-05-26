@@ -1,7 +1,5 @@
 <?php
 
-namespace {{= it.ns }};
-
 use yii\db\Migration;
 
 /**
@@ -34,6 +32,6 @@ class {{= it.struct.name }} extends Migration
      */
     public function safeDown()
     {
-        echo "Table $this->tableName cannot be reverted.\n;";
+        echo $this->dropTable($this->tableName);
     }
 }
