@@ -169,7 +169,7 @@ const createClassNames = (data) => new Promise(
 			++i;
 			let upd = val.table.replace(/__/g, '').trim();
 			data.struct[inx].table = upd;
-			data.struct[inx].name = 'M' + getYiiNumber() + upd.split('_').map(val => util.str.up1stChar(val)).join('');
+			data.struct[inx].name = 'M' + getYiiNumber() + '_' + upd.split('_').map(val => util.str.up1stChar(val)).join('');
 
 		});
 
