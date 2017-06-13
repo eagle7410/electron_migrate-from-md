@@ -6,9 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
-    "pkg-linux": "electron-packager . --overwrite --platform=linux  --arch=x64  --ignore='/app/|/node_modules/(babel*|gulp*|electron*|grunt*)|/.idea/' --icon=database-migration.ico --prune=true --out=app_build",
-    "pkg-win":   "electron-packager . --asar=true --platform=win32  --arch=ia32 --ignore='/app/|/node_modules/(babel*|gulp*|electron*|grunt*)|/.idea/' --icon=database-migration.ico --prune=true --out=app_build -version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName='Electron migrate creator'",
-    "pkg-mac":   "electron-packager . --overwrite --platform=darwin --arch=x64  --ignore='/app/|/node_modules/(babel*|gulp*|electron*|grunt*)|/.idea/' --icon=database-migration.ico --prune=true --out=app_build"
+    "pkg-linux": "electron-packager . --overwrite --platform=linux  --arch=x64  --ignore='/*-dev|rebuild.sh|.gitignore|/.idea|app/|/node_modules/(babel*|gulp*|electron*|grunt*)' --icon=fav.ico --prune=true --out=app_build",
+    "pkg-win": "electron-packager . --overwrite --asar=false --platform=win32  --arch=ia32 --ignore='/*-dev|rebuild.sh|.gitignore|/.idea|app/|/node_modules/(babel*|gulp*|electron*|grunt*)' --icon=fav.ico --prune=true --out=app_build -version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName='Electron migrate creator'",
+    "pkg-mac": "electron-packager . --overwrite --platform=darwin --arch=x64  --ignore='/*-dev|rebuild.sh|.gitignore|/.idea|app/|/node_modules/(babel*|gulp*|electron*|grunt*)' --icon=fav.icns --prune=true --out=app_build"
   },
   "repository": {
     "type": "git",
@@ -30,6 +30,8 @@
   "dependencies": {
     "dot": "^1.1.1",
     "electron-packager": "^8.7.0",
+    "fs-extra": "3.0.1",
+    "path": "0.12.7",
     "utils-igor": "^2.0.5"
   },
   "devDependencies": {

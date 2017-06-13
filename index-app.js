@@ -1,10 +1,10 @@
 /**
  * Created by igor on 21.05.17.
  */
-
 const electron      = require('electron');
 const app           = electron.app;
 const BrowserWindow = electron.BrowserWindow;
+const Menu          = electron.Menu;
 
 app.on('ready', () => {
 	let mainWindow = new BrowserWindow({
@@ -20,5 +20,5 @@ app.on('ready', () => {
 	mainWindow.on('closed', () => {
 		mainWindow = null;
 	});
-
+	require('./menu-app').add(Menu, app);
 });

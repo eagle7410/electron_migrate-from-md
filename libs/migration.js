@@ -1,6 +1,7 @@
-const fs = require('fs');
+const fs   = require('fs-extra');
 const util = require('utils-igor')(['obj', 'arr', 'type', 'str']);
-const doT = require('dot');
+const doT  = require('dot');
+const path = require('path');
 const constCodes = {
 	pathBad: 1,
 	dataNo: 2,
@@ -31,7 +32,7 @@ doT.templateSettings = {
  * Get number code by label
  * @method codeGet
  * @param  {string} c
- * @return {integer|null}
+ * @return {*}
  */
 const codeGet = c => {
 	return {
@@ -48,7 +49,7 @@ const codeGet = c => {
 const isBeLen = v => util.type.isString(v) && v.length;
 
 /**
- * Vilidation data
+ * Validation data
  * @method validData
  * @param  {*}  data
  * @return {Promise}
@@ -157,7 +158,7 @@ const getYiiNumber = () => {
 };
 
 /**
- * Create name file and clsss naem
+ * Create name file and class name.
  * @method createClassNames
  * @param  {object} data
  * @return {Promise}
@@ -274,7 +275,7 @@ const saveToFiles = (data) => new Promise(
 	(resolve, reject) => {
 		let filesSaved = [];
 		let template = process.env.tpl || 'temp-first';
-		fs.readFile(__dirname + `/../views/${template}.php`, 'utf8', (e, temp) => {
+		fs.readFile(path.join(__dirname,'..','views',`${template}.php`), 'utf8', (e, temp) => {
 			if (e) {
 				console.error(e);
 				return reject('noGetTemp');
@@ -293,7 +294,7 @@ const saveToFiles = (data) => new Promise(
 						.replace(/\n\t\t\t\n/g, '\n')
 						.replace(/(\n+)/g, '\n');
 
-					filesSaved.push(saveFile(`${data.path}/${val.name}.php`, content));
+					filesSaved.push(saveFile(path.join(data.path,`${val.name}.php`), content));
 
 				});
 
@@ -337,7 +338,7 @@ module.exports = {
 	/**
 	 * process parse data and create migration files.
 	 * @method create
-	 * @param  {path: string, nameSpace :string, markdown : string } data [description]
+	 * @param  {{path: string, nameSpace :string, markdown : string }} fromReq [description]
 	 * @param  {function} call
 	 */
 	create: (fromReq, call) => {
